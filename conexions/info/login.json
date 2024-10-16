@@ -1,0 +1,9 @@
+{
+    "can_write": false,
+    "host":"localhost",
+    "port": 1521,
+    "service_name": "XEPDB1",
+    "sid": "XE",
+    "user": "LABDATABASE",
+    "password": "labDatabase2022"
+}
