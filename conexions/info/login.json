@@ -4,6 +4,6 @@
     "port": 1521,
     "service_name": "XEPDB1",
     "sid": "XE",
-    "user": "LABDATABASE",
+    "user": "labdatabase",
     "password": "labDatabase2022"
 }
