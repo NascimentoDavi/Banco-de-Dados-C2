@@ -1,5 +1,6 @@
 import json
 import cx_Oracle
+from pandas import DataFrame
 
 class Conexion:
     def __init__(self, config_file):
@@ -39,6 +40,25 @@ class Conexion:
             )
         except cx_Oracle.DatabaseError as e:
             raise Exception(f"Erro ao conectar ao banco de dados: {e}")
+        
+    def sqlToDataFrame(self, query:str) -> DataFrame:
+        '''
+        Esse método irá executar uma query
+        Parameters:
+        - query: consulta utilizada para recuperação dos dados
+        return: um DataFrame da biblioteca Pandas
+        '''
+
+        if self.connection is None:
+            raise Exception("Conexão não estabelecida. Chame o método connect() primeiro.")
+        
+        if not self.can_write:
+            raise Exception("Conexão apenas de leitura. Não é possível executar operações de escrita.")
+        
+        with self.connection.cursor() as cursor:
+            cursor.execute(query)
+            rows = cursor.fetchall()
+            return DataFrame(rows, columns=[col[0].lower() for col in cursor.description])
 
     def execute_query(self, query, params=None):
         """Executa uma consulta no banco de dados e retorna os resultados."""
