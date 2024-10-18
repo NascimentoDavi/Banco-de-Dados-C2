@@ -3,8 +3,9 @@ import cx_Oracle
 from pandas import DataFrame
 
 class Conexion:
-    def __init__(self, config_file):
+    def __init__(self, config_file, can_write:bool=False):
         self.config_file = config_file
+        self.can_write = can_write
         self.connection = None
         self.load_config()
         self.create_dsn()
@@ -19,7 +20,6 @@ class Conexion:
             self.sid = config['sid']
             self.username = config['user']
             self.password = config['password']
-            self.can_write = config['can_write']
 
     def create_dsn(self):
         """Cria a string de conexão (DSN) a partir dos parâmetros carregados."""
@@ -38,10 +38,12 @@ class Conexion:
                 password=self.password,
                 dsn=self.dsn
             )
+            self.cursor = self.connection.cursor()
+            return self.cursor
         except cx_Oracle.DatabaseError as e:
             raise Exception(f"Erro ao conectar ao banco de dados: {e}")
         
-    def sqlToDataFrame(self, query:str) -> DataFrame:
+    def sql_to_data_frame(self, query:str) -> DataFrame:
         '''
         Esse método irá executar uma query
         Parameters:
@@ -55,31 +57,42 @@ class Conexion:
         if not self.can_write:
             raise Exception("Conexão apenas de leitura. Não é possível executar operações de escrita.")
         
-        with self.connection.cursor() as cursor:
-            cursor.execute(query)
-            rows = cursor.fetchall()
-            return DataFrame(rows, columns=[col[0].lower() for col in cursor.description])
+        self.cursor.execute(query)
+        rows = self.cursor.fetchall()
+        return DataFrame(rows, columns=[col[0].lower() for col in self.cursor.description])
+        
+    def sql_to_json(self, query:str):
+        '''
+        Esse método irá executar uma query
+        Parameters:
+        - query: consulta utilizada para recuperação dos dados
+        return: um objeto json
+        '''
+        self.cursor.execute(query)
+        columns = [col[0].lower() for col in self.cursor.description]
+        self.cursor.rowfactory = lambda *args: dict(zip(columns, args))
+        rows = self.cursor.fetchall()
+        return json.dumps(rows, default=str)
 
     def execute_query(self, query, params=None):
         """Executa uma consulta no banco de dados e retorna os resultados."""
         if self.connection is None:
             raise Exception("Conexão não estabelecida. Chame o método connect() primeiro.")
         
-        with self.connection.cursor() as cursor:
-            cursor.execute(query, params or {})
-            return cursor.fetchall()
+        self.cursor.execute(query, params or {})
+        return self.cursor.fetchall()
 
     def execute_non_query(self, query, params=None):
         """Executa uma consulta não retornadora (INSERT, UPDATE, DELETE)."""
         if self.connection is None:
             raise Exception("Conexão não estabelecida. Chame o método connect() primeiro.")
         
-        if not self.can_write:
+        if self.can_write == False:
             raise Exception("Conexão apenas de leitura. Não é possível executar operações de escrita.")
         
-        with self.connection.cursor() as cursor:
-            cursor.execute(query, params or {})
-            self.connection.commit()
+        
+        self.cursor.execute(query, params or {})
+        self.connection.commit()
 
     def close(self):
         """Fecha a conexão com o banco de dados."""

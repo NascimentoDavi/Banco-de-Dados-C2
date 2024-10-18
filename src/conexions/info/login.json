@@ -1,5 +1,4 @@
 {
-    "can_write": true,
     "host":"localhost",
     "port": 1521,
     "service_name": "XEPDB1",

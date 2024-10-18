@@ -42,4 +42,4 @@ class Vilao:
         return self.nivel_periculosidade
 
     def to_string(self) -> str:
-        return f"Vilão: {self.get_nome_vilao()} | Nome Verdadeiro: {self.get_nome_verdadeiro()} | Localização: {self.get_localizacao().get_nome_localizacao()} | Periculosidade: {self.get_nivel_periculosidade()}"
+        return f"Vilão: {self.get_nome_vilao()} | Nome Verdadeiro: {self.get_nome_verdadeiro()} | Localização: {self.get_localizacao()} | Periculosidade: {self.get_nivel_periculosidade()}"

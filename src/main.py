@@ -4,7 +4,7 @@ from conexions.conexion import Conexion
 
 def listar_tabelas():
     # Caminho para o arquivo JSON
-    json_path = os.path.join('src','conexions', 'info', 'login.json')
+    json_path = os.path.join('conexions', 'info', 'login.json')
     
     # Cria uma instância da classe Conexion
     conn = Conexion(json_path)
@@ -21,9 +21,10 @@ def listar_tabelas():
         """
         
         # Executa a consulta e obtém os resultados
-        tabelas = conn.sqlToDataFrame(query)
+        tabelas = conn.sql_to_json(query)
         
         # Exibe as tabelas
+        tabelas = json.loads(tabelas)
         print(tabelas)
     except Exception as e:
         print(f"Ocorreu um erro: {e}")
