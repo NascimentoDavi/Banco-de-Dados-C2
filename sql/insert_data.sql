@@ -118,24 +118,8 @@ VALUES
 
 INSERT INTO Vilao_Veiculo (ID_Vilao, ID_Veiculo)
 VALUES
-(6, 4); -- Exterminador usa um avião
+(6, 4);
 
 INSERT INTO Vilao_Veiculo (ID_Vilao, ID_Veiculo)
 VALUES
-(7, 5); -- Morcego Humano usa suas asas
-
--- Verificar se as inserções foram feitas corretamente
-SELECT * FROM Vilao;
-SELECT * FROM Arma;
-SELECT * FROM Veiculo;
-SELECT * FROM Vilao_Arma;
-SELECT * FROM Vilao_Veiculo;
-
--- Criar um exemplo de consulta com JOIN para obter detalhes completos de vilões, suas armas e veículos
-SELECT v.Nome_Vilao, v.Nome_Verdadeiro, l.Nome_Localizacao, a.Tipo_Arma, ve.Tipo_Veiculo
-FROM Vilao v
-JOIN Localizacao l ON v.Localizacao = l.ID_Localizacao
-LEFT JOIN Vilao_Arma va ON v.ID_Vilao = va.ID_Vilao
-LEFT JOIN Arma a ON va.ID_Arma = a.ID_Arma
-LEFT JOIN Vilao_Veiculo vv ON v.ID_Vilao = vv.ID_Vilao
-LEFT JOIN Veiculo ve ON vv.ID_Veiculo = ve.ID_Veiculo;
+(7, 5);

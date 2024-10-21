@@ -74,15 +74,14 @@ class Conexion:
         rows = self.cursor.fetchall()
         return json.dumps(rows, default=str)
 
-    def execute_query(self, query, params=None):
+    def execute_query(self, query):
         """Executa uma consulta no banco de dados e retorna os resultados."""
         if self.connection is None:
             raise Exception("Conexão não estabelecida. Chame o método connect() primeiro.")
         
-        self.cursor.execute(query, params or {})
-        return self.cursor.fetchall()
+        self.cursor.execute(query)
 
-    def execute_non_query(self, query, params=None):
+    def execute_non_query(self, query):
         """Executa uma consulta não retornadora (INSERT, UPDATE, DELETE)."""
         if self.connection is None:
             raise Exception("Conexão não estabelecida. Chame o método connect() primeiro.")
@@ -91,7 +90,7 @@ class Conexion:
             raise Exception("Conexão apenas de leitura. Não é possível executar operações de escrita.")
         
         
-        self.cursor.execute(query, params or {})
+        self.cursor.execute(query)
         self.connection.commit()
 
     def close(self):
@@ -99,16 +98,3 @@ class Conexion:
         if self.connection:
             self.connection.close()
             self.connection = None
-
-# Exemplo de uso
-if __name__ == "__main__":
-    conn = Conexion('conexions/info/login.json')
-    try:
-        conn.connect()
-        resultados = conn.execute_query("SELECT * FROM CLIENTES")
-        print(resultados)
-        
-        if conn.can_write:
-            conn.execute_non_query("INSERT INTO sua_tabela (coluna1, coluna2) VALUES (:1, :2)", ("valor1", "valor2"))
-    finally:
-        conn.close()
