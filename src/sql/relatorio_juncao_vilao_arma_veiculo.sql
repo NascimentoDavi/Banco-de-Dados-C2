@@ -14,4 +14,4 @@ LEFT JOIN
 LEFT JOIN 
     Veiculo ve ON vv.ID_Veiculo = ve.ID_Veiculo
 ORDER BY 
-    v.Nome_Vilao;
+    v.Nome_Vilao

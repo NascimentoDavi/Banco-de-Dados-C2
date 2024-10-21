@@ -54,9 +54,6 @@ class Conexion:
         if self.connection is None:
             raise Exception("Conexão não estabelecida. Chame o método connect() primeiro.")
         
-        if not self.can_write:
-            raise Exception("Conexão apenas de leitura. Não é possível executar operações de escrita.")
-        
         self.cursor.execute(query)
         rows = self.cursor.fetchall()
         return DataFrame(rows, columns=[col[0].lower() for col in self.cursor.description])
@@ -74,14 +71,14 @@ class Conexion:
         rows = self.cursor.fetchall()
         return json.dumps(rows, default=str)
 
-    def execute_query(self, query):
+    def execute_query(self, query, params=None):
         """Executa uma consulta no banco de dados e retorna os resultados."""
         if self.connection is None:
             raise Exception("Conexão não estabelecida. Chame o método connect() primeiro.")
         
-        self.cursor.execute(query)
+        self.cursor.execute(query, params or {})
 
-    def execute_non_query(self, query):
+    def execute_non_query(self, query, params=None):
         """Executa uma consulta não retornadora (INSERT, UPDATE, DELETE)."""
         if self.connection is None:
             raise Exception("Conexão não estabelecida. Chame o método connect() primeiro.")
@@ -90,7 +87,7 @@ class Conexion:
             raise Exception("Conexão apenas de leitura. Não é possível executar operações de escrita.")
         
         
-        self.cursor.execute(query)
+        self.cursor.execute(query, params or {})
         self.connection.commit()
 
     def close(self):

@@ -18,33 +18,33 @@ class SplashScreen:
 
 
     def get_total_viloes(self):
-        conexion = Conexion()
-        conexion.connect
+        conexion = Conexion("conexions/info/login.json")
+        conexion.connect()
         return conexion.sql_to_data_frame(self.qry_total_viloes)["total_vilao"].values[0]
 
     def get_total_armas(self):
-        conexion = Conexion()
-        conexion.connect
+        conexion = Conexion("conexions/info/login.json")
+        conexion.connect()
         return conexion.sql_to_data_frame(self.qry_total_armas)["total_arma"].values[0]
     
     def get_total_veiculos(self):
-        conexion = Conexion()
-        conexion.connect
+        conexion = Conexion("conexions/info/login.json")
+        conexion.connect()
         return conexion.sql_to_data_frame(self.qry_total_veiculos)["total_veiculo"].values[0]
     
     def get_total_localizacoes(self):
-        conexion = Conexion()
-        conexion.connect
+        conexion = Conexion("conexions/info/login.json")
+        conexion.connect()
         return conexion.sql_to_data_frame(self.qry_total_localizacoes)["total_localizacao"].values[0]
     
     def get_total_viloes_armas(self):
-        conexion = Conexion()
-        conexion.connect
+        conexion = Conexion("conexions/info/login.json")
+        conexion.connect()
         return conexion.sql_to_data_frame(self.qry_total_viloes_armas)["total_vilao_arma"].values[0]
     
     def get_total_viloes_veiculos(self):
-        conexion = Conexion()
-        conexion.connect
+        conexion = Conexion("conexions/info/login.json")
+        conexion.connect()
         return conexion.sql_to_data_frame(self.qry_total_viloes_veiculos)["total_vilao_veiculo"].values[0]
     
     def get_updated_screen(self):

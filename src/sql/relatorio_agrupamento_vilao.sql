@@ -1,4 +1,3 @@
--- Relatório 1: Contagem de armas e veículos por vilão
 SELECT 
     v.Nome_Vilao,
     COUNT(DISTINCT va.ID_Arma) AS Quantidade_Armas,
@@ -12,4 +11,4 @@ LEFT JOIN
 GROUP BY 
     v.Nome_Vilao
 ORDER BY 
-    v.Nome_Vilao;
+    v.Nome_Vilao

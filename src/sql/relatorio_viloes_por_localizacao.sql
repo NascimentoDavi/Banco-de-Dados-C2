@@ -9,4 +9,4 @@ LEFT JOIN
 GROUP BY 
     l.Nome_Localizacao
 ORDER BY 
-    Quantidade_Viloes DESC;
+    Quantidade_Viloes DESC
