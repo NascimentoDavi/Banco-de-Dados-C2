@@ -55,6 +55,8 @@ $ python3 main.py
 
 ## Estrutura de arquivos
 
+- **Diagrams** -> Pasta com os arquivos architect, pdf e png do diagram
+
 - **Edital** -> Pasta com o edital do trabalho, contendo todas as instruções para execução do trabalho
 
 - **sql** -> Pasta com os arquivos para geração das tabelas e inserção dos dados de exemplo
