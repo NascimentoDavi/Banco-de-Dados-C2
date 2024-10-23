@@ -14,6 +14,9 @@ class Controller_Vilao:
         if not self.verifica_existencia_vilao(id_vilao):
             nome_vilao = input("Nome do Vilão (Novo): ")
             nome_verdadeiro = input("Nome Verdadeiro (Novo): ")
+            print("\n")
+            print(self.conn.sql_to_data_frame("SELECT ID_Localizacao, Nome_Localizacao FROM LOCALIZACAO"))
+            print("\n")
             localizacao = input("ID da Localização: ")
             nivel_periculosidade = input("Nível de Periculosidade: ")
 
@@ -39,8 +42,11 @@ class Controller_Vilao:
 
         if self.verifica_existencia_vilao(id_vilao):
             novo_nome = input("Nome do Vilão (Novo): ")
-            novo_nome_verdadeiro = input("Nome Verdadeiro (Novo): ")
-            novo_localizacao = input("ID da Localização (Nova): ")
+            novo_nome_verdadeiro = input("Nome Verdadeiro (Novo): ")            
+            print("\n")
+            print(self.conn.sql_to_data_frame("SELECT ID_Localizacao, Nome_Localizacao FROM LOCALIZACAO"))
+            print("\n")
+            novo_localizacao = input("ID da Localização: ")
             novo_nivel_periculosidade = input("Nível de Periculosidade (Novo): ")
 
             self.conn.execute_non_query(f"""
