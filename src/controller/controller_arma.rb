@@ -61,6 +61,23 @@ class Controller_arma
     end
   end
 
+  def excluir_arma
+    database = @connection.connect
+    collection = database.database[:arma]
+
+    puts "Digite o ID da Arma que deseja excluir:"
+    id_arma = gets.chomp
+
+    if verifica_existencia_arma(id_arma)
+      data = JSON.parse(recupera_arma(id_arma))
+      arma = Arma.new(data['_id'], data['tipo'], data['descricao'])
+      collection.delete_one({"_id" => id_arma})
+
+      puts "Arma excluida com sucesso"
+      puts arma.to_s
+    end
+  end
+
   def recupera_arma(id_arma)
     database = @connection.connect
     collection = database.database[:arma]
