@@ -1,8 +1,7 @@
 {
-    "host":"localhost",
-    "port": 1521,
-    "service_name": "XEPDB1",
-    "sid": "XE",
-    "user": "labdatabase",
-    "password": "labDatabase2022"
+    "username": "vinicius",
+    "password": "vinicius",
+    "host": "vinicluster.zzvhk.mongodb.net",
+    "appName": "vinicluster",
+    "databaseName": "teste_db"
 }

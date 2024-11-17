@@ -1,2 +1,0 @@
-Cx_oracle
-pandas
