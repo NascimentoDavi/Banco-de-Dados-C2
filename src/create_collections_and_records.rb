@@ -2,7 +2,7 @@ require_relative 'conexions/connection'
 
 def create_collections(client)
   database = client.database
-  colecoes_necessarias = ['viloes', 'arma', 'veiculos', 'vilao_arma', 'vilao_veiculo']
+  colecoes_necessarias = ['viloes', 'arma', 'veiculos', 'vilao_arma', 'vilao_veiculo', 'localizacoes', 'vilao_localizacao']
 
   colecoes_necessarias.each do |colecao|
     if database.collection_names.include?(colecao)
@@ -18,11 +18,11 @@ def inserir_viloes(client)
   collection = client.database[:viloes]
 
   viloes = [
-    { "_id" => "1", "nome_vilao" => "Coringa", "nome_verdadeiro" => "Desconhecido", "localizacao" => "Gotham", "nivel_periculosidade" => "Alto" },
-    { "_id" => "2", "nome_vilao" => "Lex Luthor", "nome_verdadeiro" => "Alexander Joseph Luthor", "localizacao" => "Metropolis", "nivel_periculosidade" => "Alto" },
-    { "_id" => "3", "nome_vilao" => "Duas-Caras", "nome_verdadeiro" => "Harvey Dent", "localizacao" => "Gotham", "nivel_periculosidade" => "Médio" },
-    { "_id" => "4", "nome_vilao" => "Charada", "nome_verdadeiro" => "Edward Nigma", "localizacao" => "Gotham", "nivel_periculosidade" => "Médio" },
-    { "_id" => "5", "nome_vilao" => "Pinguim", "nome_verdadeiro" => "Oswald Cobblepot", "localizacao" => "Gotham", "nivel_periculosidade" => "Médio" }
+    { "_id" => "1", "nome_vilao" => "Coringa", "nome_verdadeiro" => "Desconhecido", "nivel_periculosidade" => "Alto" },
+    { "_id" => "2", "nome_vilao" => "Lex Luthor", "nome_verdadeiro" => "Alexander Joseph Luthor", "nivel_periculosidade" => "Alto" },
+    { "_id" => "3", "nome_vilao" => "Duas-Caras", "nome_verdadeiro" => "Harvey Dent", "nivel_periculosidade" => "Médio" },
+    { "_id" => "4", "nome_vilao" => "Charada", "nome_verdadeiro" => "Edward Nigma", "nivel_periculosidade" => "Médio" },
+    { "_id" => "5", "nome_vilao" => "Pinguim", "nome_verdadeiro" => "Oswald Cobblepot", "nivel_periculosidade" => "Médio" }
   ]
 
   viloes.each do |vilao|
@@ -111,6 +111,45 @@ def inserir_vilao_veiculo(client)
   end
 end
 
+def inserir_localizacoes(client)
+  collection = client.database[:localizacoes]
+
+  localizacoes = [
+    { "_id" => "1", "nome_localizacao" => "Gotham", "tipo_localizacao" => "Cidade" },
+    { "_id" => "2", "nome_localizacao" => "Metropolis", "tipo_localizacao" => "Cidade" }
+  ]
+
+  localizacoes.each do |localizacao|
+    unless collection.find({ "_id" => localizacao["_id"] }).to_a.empty?
+      puts "Localização com ID #{localizacao["_id"]} já existe."
+    else
+      collection.insert_one(localizacao)
+      puts "Localização #{localizacao["nome_localizacao"]} inserida com sucesso."
+    end
+  end
+end
+
+def inserir_vilao_localizacao(client)
+  collection = client.database[:vilao_localizacao]
+
+  vilao_localizacoes = [
+    { "vilao_id" => "1", "localizacao_id" => "1" },
+    { "vilao_id" => "2", "localizacao_id" => "2" },
+    { "vilao_id" => "3", "localizacao_id" => "1" },
+    { "vilao_id" => "4", "localizacao_id" => "1" },
+    { "vilao_id" => "5", "localizacao_id" => "1" }
+  ]
+
+  vilao_localizacoes.each do |vl|
+    unless collection.find({ "vilao_id" => vl["vilao_id"], "localizacao_id" => vl["localizacao_id"] }).to_a.empty?
+      puts "Associação Vilão #{vl["vilao_id"]} com Localização #{vl["localizacao_id"]} já existe."
+    else
+      collection.insert_one(vl)
+      puts "Associação Vilão #{vl["vilao_id"]} com Localização #{vl["localizacao_id"]} inserida com sucesso."
+    end
+  end
+end
+
 def main
   # Conectar ao banco de dados
   begin
@@ -137,6 +176,8 @@ def main
     inserir_veiculos(client)
     inserir_vilao_arma(client)
     inserir_vilao_veiculo(client)
+    inserir_localizacoes(client)
+    inserir_vilao_localizacao(client)
   rescue => e
     puts "Erro ao inserir registros: #{e.message}"
   ensure

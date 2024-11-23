@@ -32,10 +32,6 @@ class Controller_vilao
       puts "Insira o nome verdadeiro do vilão:"
       STDOUT.flush
       nome_verdadeiro = gets.chomp
-      listar_localizacoes
-      puts "Digite o ID da Localização:"
-      STDOUT.flush
-      id_localizacao = gets.chomp
       puts "Digite o nível de periculosidade:"
       STDOUT.flush
       nivel_periculosidade = gets.chomp
@@ -44,12 +40,11 @@ class Controller_vilao
                               "_id" => id_vilao,
                               "nome_vilao" => nome_vilao,
                               "nome_verdadeiro" => nome_verdadeiro,
-                              "localizacao" => id_localizacao,
                               "nivel_periculosidade" => nivel_periculosidade
                             })
 
       data = recupera_vilao(id_vilao)
-      novo_vilao = Vilao.new(data[0]['_id'], data[0]['nome_vilao'], data[0]['nome_verdadeiro'], data[0]['localizacao'], data[0]['nivel_periculosidade'])
+      novo_vilao = Vilao.new(data[0]['_id'], data[0]['nome_vilao'], data[0]['nome_verdadeiro'], data[0]['nivel_periculosidade'])
       puts novo_vilao.to_s
       novo_vilao
     else
@@ -73,10 +68,6 @@ class Controller_vilao
       puts "Digite o novo nome verdadeiro do vilão:"
       STDOUT.flush
       novo_nome_verdadeiro = gets.chomp
-      listar_localizacoes
-      puts "Digite o novo ID da Localização:"
-      STDOUT.flush
-      novo_id_localizacao = gets.chomp
       puts "Digite o novo nível de periculosidade:"
       STDOUT.flush
       novo_nivel_periculosidade = gets.chomp
@@ -85,13 +76,12 @@ class Controller_vilao
         "$set" => {
           "nome_vilao" => novo_nome_vilao,
           "nome_verdadeiro" => novo_nome_verdadeiro,
-          "localizacao" => novo_id_localizacao,
           "nivel_periculosidade" => novo_nivel_periculosidade
         }
       })
 
       data = recupera_vilao(id_vilao)
-      vilao_atualizado = Vilao.new(data[0]['_id'], data[0]['nome_vilao'], data[0]['nome_verdadeiro'], data[0]['localizacao'], data[0]['nivel_periculosidade'])
+      vilao_atualizado = Vilao.new(data[0]['_id'], data[0]['nome_vilao'], data[0]['nome_verdadeiro'], data[0]['nivel_periculosidade'])
       puts vilao_atualizado.to_s
       vilao_atualizado
     else
@@ -110,7 +100,7 @@ class Controller_vilao
 
     if verifica_existencia_vilao(id_vilao)
       data = recupera_vilao(id_vilao)
-      vilao = Vilao.new(data[0]['_id'], data[0]['nome_vilao'], data[0]['nome_verdadeiro'], data[0]['localizacao'], data[0]['nivel_periculosidade'])
+      vilao = Vilao.new(data[0]['_id'], data[0]['nome_vilao'], data[0]['nome_verdadeiro'], data[0]['nivel_periculosidade'])
       collection.delete_one({"_id" => id_vilao})
 
       puts "Vilão excluído com sucesso"
